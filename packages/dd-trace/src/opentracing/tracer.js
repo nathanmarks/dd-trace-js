@@ -25,6 +25,7 @@ const REFERENCE_FOLLOWS_FROM = opentracing.REFERENCE_FOLLOWS_FROM
 
 class DatadogTracer extends Tracer {
   constructor (config) {
+    throw new Error('should not be loading this')
     super()
 
     const Exporter = platform.exporter(config.experimental.exporter)

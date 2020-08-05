@@ -3,7 +3,12 @@
 const net = require('net')
 const http = require('http')
 
-net.createServer(() => {}).listen(3117, () => {})
+const Decoder = require('../decoder')
+require('../strings').init(1024)
+const decoder = new Decoder()
+const server = net.createServer(socket => socket.pipe(decoder)).listen(3117, () => {
+})
+// setInterval(() => console.log(decoder), 5000)
 
 http.createServer(async (req, res) => {
   res.statusCode = 200

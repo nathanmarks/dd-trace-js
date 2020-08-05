@@ -15,7 +15,7 @@ class Metas extends DataView {
     return (32 * 2 * 8) + 3
   }
 
-  add (key, value) {
+  add (key, value = '') {
     const currentLen = this.getUint8(2)
     if (currentLen === 32) {
       throw new Error('too many meta values')

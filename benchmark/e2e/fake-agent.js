@@ -11,6 +11,8 @@ http.createServer(async (req, res) => {
   if (process.send) { process.send({ ready: true }) }
 })
 
+require('net').createServer(() => {}).listen(3117)
+
 async function streamLen (strm) {
   try {
     let len = 0

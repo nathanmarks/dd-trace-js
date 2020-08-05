@@ -376,16 +376,15 @@ function addResponseTags (req) {
 
 function addResourceTag (req) {
   const span = req._datadog.span
-  const tags = span.context()._tags
 
-  if (tags['resource.name']) return
+  if (span.resource) return
 
   const resource = [req.method]
     .concat(tags[HTTP_ROUTE])
     .filter(val => val)
     .join(' ')
 
-  span.setTag(RESOURCE_NAME, resource)
+  span.setTag('resource', resource)
 }
 
 function addHeaders (req) {

@@ -119,6 +119,8 @@ class Config {
         'runtime-id': runtimeId
       })
     }
+
+    this.agent = options.agent
   }
 }
 

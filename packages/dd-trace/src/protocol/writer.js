@@ -25,7 +25,8 @@ class Writer {
     strings.flushQueue(this.netClient)
   }
 
-  static createWriter ({ protocol, hostname, port }, cb) {
+  static createWriter (url, cb) {
+    const { protocol, hostname, port } = url
     cb = once(cb)
     const writer = Object.create(Writer.prototype)
     const lib = protocol.startsWith('tls') ? tls : net
@@ -50,6 +51,7 @@ class NetClient {
   }
 
   _flush () {
+    if (this.cursor === 0) return
     this.client.write(this.buf.slice(0, this.cursor))
     this.cursor = 0
   }

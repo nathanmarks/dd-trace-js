@@ -1,7 +1,9 @@
 'use strict'
 
 if (process.env.DD_BENCH_TRACE_ENABLE) {
-  require('../..').init({})
+  require('../..').init({
+    agent: new URL('tcp://localhost:3117')
+  })
 } else if (process.env.DD_BENCH_ASYNC_HOOKS) {
   const asyncHooks = require('async_hooks')
   const hook = asyncHooks.createHook({

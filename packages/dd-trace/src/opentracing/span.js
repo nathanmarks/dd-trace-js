@@ -12,6 +12,7 @@ const SAMPLE_RATE_METRIC_KEY = constants.SAMPLE_RATE_METRIC_KEY
 
 class DatadogSpan extends Span {
   constructor (tracer, processor, sampler, prioritySampler, fields) {
+    throw new Error('should not be loading this')
     super()
 
     const startTime = fields.startTime || platform.now()

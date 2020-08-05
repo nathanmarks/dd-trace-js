@@ -34,6 +34,18 @@ class ProtocolBase extends DataView {
     this.metas.add(key, value)
   }
 
+  setTag (key, value) {
+    if (key in this.constructor._accessors) {
+      this[key] = value
+    } else {
+      if (typeof value === 'number') {
+        this.addMetric(key, value)
+      } else {
+        this.addMeta(key, value)
+      }
+    }
+  }
+
   [Symbol.for('nodejs.util.inspect.custom')] () {
     const obj = {}
     for (const key in this) {
@@ -43,6 +55,7 @@ class ProtocolBase extends DataView {
   }
 
   static _makeAccessors (accessorList) {
+    this._accessors = accessorList
     let offset = 2 // magic number fits here
     for (const key in accessorList) {
       const valType = accessorList[key]
