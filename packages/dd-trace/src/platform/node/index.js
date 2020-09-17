@@ -42,10 +42,14 @@ const platform = {
   off: emitter.removeListener.bind(emitter),
   Loader,
   getScope (scope) {
-    if (scope === scopes.ASYNC_LOCAL_STORAGE) {
-      return require('../../scope/async_local_storage')
+    switch (scope) {
+      case scopes.ASYNC_RESOURCE:
+        return require('../../scope/async_resource')
+      case scopes.ASYNC_LOCAL_STORAGE:
+        return require('../../scope/async_local_storage')
+      default:
+        return require('../../scope/async_hooks')
     }
-    return require('../../scope/async_hooks')
   },
   exporter,
   profiler () {
