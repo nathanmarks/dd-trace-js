@@ -44,26 +44,19 @@ describe('dd-trace', () => {
     agent.put('/v0.4/traces', (req, res) => {
       if (req.body.length === 0) return res.status(200).send()
 
-      try {
-        const payload = msgpack.decode(req.body, { codec })
+      const payload = msgpack.decode(req.body, { codec })
 
-        console.log(payload[0][0].trace_id.toArray())
-        console.log(span.context()._traceId.toBuffer())
+      expect(payload[0][0].trace_id.toString()).to.equal(span.context()._traceId.toString(10))
+      expect(payload[0][0].span_id.toString()).to.equal(span.context()._spanId.toString(10))
+      expect(payload[0][0].service).to.equal('test')
+      expect(payload[0][0].name).to.equal('hello')
+      expect(payload[0][0].resource).to.equal('/hello/:name')
+      expect(payload[0][0].start).to.be.instanceof(Uint64BE)
+      expect(payload[0][0].duration).to.be.a('number')
 
-        expect(payload[0][0].trace_id.toString()).to.equal(span.context()._traceId.toString(10))
-        expect(payload[0][0].span_id.toString()).to.equal(span.context()._spanId.toString(10))
-        expect(payload[0][0].service).to.equal('test')
-        expect(payload[0][0].name).to.equal('hello')
-        expect(payload[0][0].resource).to.equal('/hello/:name')
-        expect(payload[0][0].start).to.be.instanceof(Uint64BE)
-        expect(payload[0][0].duration).to.be.a('number')
+      res.status(200).send('OK')
 
-        res.status(200).send('OK')
-
-        done()
-      } catch (e) {
-        done(e)
-      }
+      done()
     })
 
     span.finish()
